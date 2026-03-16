@@ -3,8 +3,10 @@ import "tailwindcss";
 import "./App.css";
 import Header from "./components/Header";
 import StatsBar from "./components/StatsBar";
+import MoodSelector from "./components/MoodSelector";
 
 function App() {
+  const [selectedMood, setSelectedMood] = useState<string | null>(null);
   return (
     <div className="min-h-screen bg-background bg-gradient-radial">
       <Header />
@@ -27,6 +29,14 @@ function App() {
         {/* Stats Bar */}
         <section className="mb-12">
           <StatsBar />
+        </section>
+
+        {/* Mood Selector */}
+        <section className="mb-12">
+          <MoodSelector
+            selectedMood={selectedMood}
+            onSelectMood={setSelectedMood}
+          />
         </section>
       </main>
     </div>
