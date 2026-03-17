@@ -22,6 +22,7 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!selectedGenreId) {
@@ -42,11 +43,15 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
               language: "it-IT",
               include_adult: false,
               include_video: false,
-              page: 1,
+              page: Math.floor(Math.random() * 10) + 1,
               sort_by: "popularity.desc",
               with_genres: selectedGenreId,
             },
           },
+        );
+
+        const shuffledResults = response.data.results.sort(
+          () => 0.5 - Math.random(),
         );
 
         window.scrollTo({ top: 500, behavior: "smooth" });
@@ -91,27 +96,29 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
     };
 
     fetchMovies();
-  }, [selectedGenreId]);
+  }, [selectedGenreId, refreshKey]);
 
   if (!selectedGenreId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-700">
         <div className="w-24 h-24 rounded-full glass flex items-center justify-center mb-6 bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
           <svg
-            className="w-12 h-12 text-gray-400"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="50px"
+            height="50px"
+            viewBox="0 0 32 32"
           >
-            <path d="M15.91 11.72a.5.5 0 0 1 0 .56l-5.25 7.83a.5.5 0 0 1-.91-.28V13H5.5a.5.5 0 0 1-.41-.79l5.25-7.83a.5.5 0 0 1 .91.28V11h4.25a.5.5 0 0 1 .41.72z" />
+            <path
+              fill="currentColor"
+              d="m17.831 3.306l-9.726 13.9c-.26.37-.045.794.395.794h4c.35 0 .5.14.5.5v10.763c0 .71.86 1.02 1.27.45l9.618-12.828c.27-.37.052-.885-.388-.885H20c-.5 0-1-.5-1-1V3.5c0-.5-.76-.774-1.169-.194"
+            />
           </svg>
         </div>
         <h3 className="text-2xl font-semibold text-white mb-2">
           Seleziona il tuo Mood
         </h3>
         <p className="text-gray-400 max-w-md">
-          Scegli come ti senti qui sopra e ti consiglieremo 3 film perfetti per
+          Scegli come ti senti qui sopra e ti consiglieremo 4 film perfetti per
           il tuo stato d'animo.
         </p>
       </div>
@@ -190,6 +197,25 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           <MovieCard key={movie.id} movie={movie} index={index} />
         ))}
       </div>
+      <button
+        onClick={() => setRefreshKey((prev) => prev + 1)}
+        className="mt-8 mb-12 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-full font-medium transition-all duration-300 flex items-center justify-self-center gap-2 group hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+      >
+        <svg
+          className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
+        Mostrami altri film
+      </button>
     </div>
   );
 }

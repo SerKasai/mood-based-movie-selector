@@ -45,6 +45,43 @@ function App() {
           <MovieGrid selectedGenreId={selectedMood} />
         </section>
       </main>
+      <footer className="border-t border-border mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br flex items-center justify-center">
+                <img src="/emojione--movie-camera.png" alt="icon-camera" />
+              </div>
+              <span className="text-sm font-semibold text-foreground">
+                MoodFlix
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              &copy; Sergio Ignizio
+            </p>
+            <div className="flex items-center gap-4">
+              <a
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy
+              </a>
+              <a
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </a>
+              <a
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

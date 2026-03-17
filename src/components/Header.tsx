@@ -5,7 +5,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
-              <img src="/public/emojione--movie-camera.png" alt="icon-camera" />
+              <img src="/emojione--movie-camera.png" alt="icon-camera" />
             </div>
             <span className="text-xl font-bold text-foreground">MoodFlix</span>
           </div>
