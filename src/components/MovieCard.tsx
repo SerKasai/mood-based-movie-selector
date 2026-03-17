@@ -71,7 +71,7 @@ export default function MovieCard({ movie, index }: MovieCardProps) {
       </div>
 
       {/* Hover Overlay */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/80 backdrop-blur-sm">
+      <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/80 backdrop-blur-sm">
         <a
           href={movie.trailerUrl} // Usiamo il link dinamico
           target="_blank" // Apre in una nuova scheda
@@ -82,6 +82,21 @@ export default function MovieCard({ movie, index }: MovieCardProps) {
             <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
           </svg>
           Guarda Trailer
+        </a>
+      </div>
+
+      {/* Tasto Trailer Mobile */}
+      <div className="p-4">
+        <a
+          href={movie.trailerUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="md:hidden flex items-center gap-1 text-xs font-bold text-red-500 uppercase tracking-wider"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          Trailer
         </a>
       </div>
     </div>
