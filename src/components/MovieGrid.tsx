@@ -56,35 +56,32 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
 
         window.scrollTo({ top: 500, behavior: "smooth" });
 
-        const mappedMovies: Movie[] = response.data.results.map(
-          (tmdbMovie: any) => {
-            const releaseYear = tmdbMovie.release_date
-              ? parseInt(tmdbMovie.release_date.split("-")[0])
-              : 0;
+        const mappedMovies: Movie[] = shuffledResults.map((tmdbMovie: any) => {
+          const releaseYear = tmdbMovie.release_date
+            ? parseInt(tmdbMovie.release_date.split("-")[0])
+            : 0;
 
-            const genreNamesString = getGenreNames(tmdbMovie.genre_ids);
-            const genreArray = genreNamesString
-              ? genreNamesString.split(", ")
-              : ["Sconosciuto"];
+          const genreNamesString = getGenreNames(tmdbMovie.genre_ids);
+          const genreArray = genreNamesString
+            ? genreNamesString.split(", ")
+            : ["Sconosciuto"];
 
-            const safeTitle = encodeURIComponent(tmdbMovie.title);
+          const safeTitle = encodeURIComponent(tmdbMovie.title);
 
-            return {
-              id: tmdbMovie.id,
-              title: tmdbMovie.title,
-              year: releaseYear,
-              rating: Math.round(tmdbMovie.vote_average * 10) / 10,
-              genre: genreArray,
-              poster: tmdbMovie.poster_path
-                ? `https://image.tmdb.org/t/p/w342${tmdbMovie.poster_path}`
-                : "https://via.placeholder.com/500x750?text=No+Poster",
-              description:
-                tmdbMovie.overview ||
-                "Descrizione non disponibile in italiano.",
-              trailerUrl: `https://www.youtube.com/results?search_query=${safeTitle}+trailer+ita+ufficiale`,
-            };
-          },
-        );
+          return {
+            id: tmdbMovie.id,
+            title: tmdbMovie.title,
+            year: releaseYear,
+            rating: Math.round(tmdbMovie.vote_average * 10) / 10,
+            genre: genreArray,
+            poster: tmdbMovie.poster_path
+              ? `https://image.tmdb.org/t/p/w342${tmdbMovie.poster_path}`
+              : "https://via.placeholder.com/500x750?text=No+Poster",
+            description:
+              tmdbMovie.overview || "Descrizione non disponibile in italiano.",
+            trailerUrl: `https://www.youtube.com/results?search_query=${safeTitle}+trailer+ita+ufficiale`,
+          };
+        });
 
         setMovies(mappedMovies.slice(0, 4));
       } catch (err) {
