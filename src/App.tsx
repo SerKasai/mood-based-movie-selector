@@ -4,9 +4,10 @@ import "./App.css";
 import Header from "./components/Header";
 import StatsBar from "./components/StatsBar";
 import MoodSelector from "./components/MoodSelector";
+import MovieGrid from "./components/MovieGrid";
 
 function App() {
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const [selectedMood, setSelectedMood] = useState<number | null>(null);
   return (
     <div className="min-h-screen bg-background bg-gradient-radial">
       <Header />
@@ -37,6 +38,11 @@ function App() {
             selectedMood={selectedMood}
             onSelectMood={setSelectedMood}
           />
+        </section>
+
+        {/* Movie Grid */}
+        <section>
+          <MovieGrid selectedGenreId={selectedMood} />
         </section>
       </main>
     </div>

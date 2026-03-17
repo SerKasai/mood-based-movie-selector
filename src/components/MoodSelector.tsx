@@ -1,5 +1,5 @@
 interface Mood {
-  id: string;
+  id: number;
   name: string;
   icon: string;
   color: string;
@@ -8,42 +8,42 @@ interface Mood {
 
 const moods: Mood[] = [
   {
-    id: "happy",
+    id: 35,
     name: "Felice",
     icon: "felice",
     color: "text-yellow-400",
     gradient: "from-yellow-400/20 to-orange-400/20",
   },
   {
-    id: "sad",
+    id: 18,
     name: "Triste",
     icon: "triste",
     color: "text-blue-400",
     gradient: "from-blue-400/20 to-indigo-400/20",
   },
   {
-    id: "excited",
+    id: 28,
     name: "Eccitato",
     icon: "eccitato",
     color: "text-orange-400",
     gradient: "from-orange-400/20 to-red-400/20",
   },
   {
-    id: "relaxed",
+    id: 99,
     name: "Rilassato",
     icon: "rilassato",
     color: "text-emerald-400",
     gradient: "from-emerald-400/20 to-teal-400/20",
   },
   {
-    id: "romantic",
+    id: 10749,
     name: "Romantico",
     icon: "romantico",
     color: "text-pink-400",
     gradient: "from-pink-400/20 to-rose-400/20",
   },
   {
-    id: "scared",
+    id: 27,
     name: "Spaventato",
     icon: "spaventato",
     color: "text-purple-400",
@@ -52,8 +52,8 @@ const moods: Mood[] = [
 ];
 
 interface MoodSelectorProps {
-  selectedMood: string | null;
-  onSelectMood: (mood: string) => void;
+  selectedMood: string | null | number;
+  onSelectMood: (id: number) => void;
 }
 
 function MoodIcon({ icon, className }: { icon: string; className?: string }) {
