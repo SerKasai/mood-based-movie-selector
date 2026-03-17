@@ -11,6 +11,7 @@ interface Movie {
   genre: string[];
   poster: string;
   description: string;
+  trailerUrl: string;
 }
 
 interface MovieGridProps {
@@ -48,6 +49,8 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           },
         );
 
+        window.scrollTo({ top: 500, behavior: "smooth" });
+
         const mappedMovies: Movie[] = response.data.results.map(
           (tmdbMovie: any) => {
             const releaseYear = tmdbMovie.release_date
@@ -58,6 +61,8 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
             const genreArray = genreNamesString
               ? genreNamesString.split(", ")
               : ["Sconosciuto"];
+
+            const safeTitle = encodeURIComponent(tmdbMovie.title);
 
             return {
               id: tmdbMovie.id,
@@ -71,11 +76,12 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
               description:
                 tmdbMovie.overview ||
                 "Descrizione non disponibile in italiano.",
+              trailerUrl: `https://www.youtube.com/results?search_query=${safeTitle}+trailer+ita+ufficiale`,
             };
           },
         );
 
-        setMovies(mappedMovies.slice(0, 3));
+        setMovies(mappedMovies.slice(0, 4));
       } catch (err) {
         console.error("Errore API TMDB:", err);
         setError("Impossibile caricare i film. Riprova più tardi.");
@@ -114,59 +120,14 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
 
   if (isLoading) {
     return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24px"
-        height="24px"
-        viewBox="0 0 24 24"
-      >
-        <ellipse cx="12" cy="5" fill="currentColor" rx="4" ry="4">
-          <animate
-            id="SVG2g6X4cnm"
-            fill="freeze"
-            attributeName="cy"
-            begin="0;SVGYUW1Wdmy.end"
-            calcMode="spline"
-            dur="0.375s"
-            keySplines=".33,0,.66,.33"
-            values="5;20"
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto p-4 min-h-[500px]">
+        {[1, 2, 3].map((n) => (
+          <div
+            key={n}
+            className="glass-card rounded-2xl aspect-[2/3] animate-pulse bg-white/5"
           />
-          <animate
-            attributeName="rx"
-            begin="SVG2g6X4cnm.end"
-            calcMode="spline"
-            dur="0.05s"
-            keySplines=".33,0,.66,.33;.33,.66,.66,1"
-            values="4;4.8;4"
-          />
-          <animate
-            attributeName="ry"
-            begin="SVG2g6X4cnm.end"
-            calcMode="spline"
-            dur="0.05s"
-            keySplines=".33,0,.66,.33;.33,.66,.66,1"
-            values="4;3;4"
-          />
-          <animate
-            id="SVGb9s1Jd3o"
-            attributeName="cy"
-            begin="SVG2g6X4cnm.end"
-            calcMode="spline"
-            dur="0.025s"
-            keySplines=".33,0,.66,.33"
-            values="20;20.5"
-          />
-          <animate
-            id="SVGYUW1Wdmy"
-            attributeName="cy"
-            begin="SVGb9s1Jd3o.end"
-            calcMode="spline"
-            dur="0.4s"
-            keySplines=".33,.66,.66,1"
-            values="20.5;5"
-          />
-        </ellipse>
-      </svg>
+        ))}
+      </div>
     );
   }
   if (error) {
@@ -217,14 +178,14 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-[500px]">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-foreground">Scelti per te</h2>
         <span className="text-sm text-muted-foreground">
           {movies.length} Film
         </span>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {movies.map((movie, index) => (
           <MovieCard key={movie.id} movie={movie} index={index} />
         ))}

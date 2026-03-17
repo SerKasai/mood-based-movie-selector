@@ -6,6 +6,7 @@ interface Movie {
   genre: string[];
   poster: string;
   description: string;
+  trailerUrl: string;
 }
 
 interface MovieCardProps {
@@ -71,12 +72,17 @@ export default function MovieCard({ movie, index }: MovieCardProps) {
 
       {/* Hover Overlay */}
       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/80 backdrop-blur-sm">
-        <button className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors flex items-center gap-2">
+        <a
+          href={movie.trailerUrl} // Usiamo il link dinamico
+          target="_blank" // Apre in una nuova scheda
+          rel="noopener noreferrer" // Sicurezza per i link esterni
+          className="px-6 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors flex items-center gap-2"
+        >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
+            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
           </svg>
-          Guarda ora
-        </button>
+          Guarda Trailer
+        </a>
       </div>
     </div>
   );
