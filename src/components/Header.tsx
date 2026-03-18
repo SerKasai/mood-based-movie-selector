@@ -1,6 +1,24 @@
+import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../components/FireBase/firebaseConfig";
+
 export default function Header() {
+  const [isactive, setIsActive] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const toggleClass = () => {
+    setIsActive(!isactive);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Errore durante il logout:", error);
+    }
+  };
   return (
-    <header className="sticky top-0 z-50 glass border-b border-border">
+    <header className="sticky top-0 z-50 glass border-b border-border select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
@@ -53,18 +71,61 @@ export default function Header() {
                 <path d="m21 21-4.3-4.3"></path>
               </svg>
             </button>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24px"
-                height="24px"
-                viewBox="0 0 32 32"
+            <div className="user-menu cursor-pointer" onClick={toggleClass}>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M16.34 3.07h-2.69A5 5 0 0 0 8.7 8.73l.078 1.204a2 2 0 0 0 .257 3.975l.115 1.761a4.75 4.75 0 0 0 3.597 3.988A12.9 12.9 0 0 0 6.19 22.93v-.01a12.9 12.9 0 0 0-3.5 5.53v.11a3 3 0 0 0-.09.32l3.587.04l.002.01h17.62l.003-.01l3.588-.04l-.022-.059a.8.8 0 0 1-.068-.261v-.11a13 13 0 0 0-3.5-5.53v.01a12.9 12.9 0 0 0-6.552-3.27a4.75 4.75 0 0 0 3.602-3.99l.109-1.764a2 2 0 0 0 .245-3.961l.076-1.215a5 5 0 0 0-4.95-5.66"
+                  />
+                </svg>
+              </div>
+              <div
+                className={`${isactive ? "active" : ""} glass-card rounded-2xl absolute top-16 justify-self-center hidden items-center justify-center`}
               >
-                <path
-                  fill="currentColor"
-                  d="M16.34 3.07h-2.69A5 5 0 0 0 8.7 8.73l.078 1.204a2 2 0 0 0 .257 3.975l.115 1.761a4.75 4.75 0 0 0 3.597 3.988A12.9 12.9 0 0 0 6.19 22.93v-.01a12.9 12.9 0 0 0-3.5 5.53v.11a3 3 0 0 0-.09.32l3.587.04l.002.01h17.62l.003-.01l3.588-.04l-.022-.059a.8.8 0 0 1-.068-.261v-.11a13 13 0 0 0-3.5-5.53v.01a12.9 12.9 0 0 0-6.552-3.27a4.75 4.75 0 0 0 3.602-3.99l.109-1.764a2 2 0 0 0 .245-3.961l.076-1.215a5 5 0 0 0-4.95-5.66"
-                />
-              </svg>
+                <button
+                  onClick={() => setShowConfirm(true)}
+                  className="cursor-pointer select-none rounded-2xl p-2.5 m-2.5 bg-primary hover:bg-accent"
+                >
+                  Logout
+                </button>
+              </div>
+              {showConfirm && (
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  className="fixed inset-0 z-60 flex items-center justify-center bg-black/50"
+                >
+                  <div className="bg-black text-white p-6 rounded-md">
+                    <p className="mb-4">
+                      Sei sicuro di voler effettuare il logout?
+                    </p>
+                    <div className="flex gap-4 justify-center">
+                      <button
+                        className="px-3 py-1 border rounded text-white border-none! bg-[#1a1a1a]!"
+                        onClick={() => setShowConfirm(false)}
+                      >
+                        Annulla
+                      </button>
+                      <button
+                        className="px-3 py-1  text-red-600 rounded border-none! bg-[#1a1a1a]!"
+                        onClick={async (e) => {
+                          e.stopPropagation(); // Evita che il click chiuda accidentalmente altri menu sotto al modale
+                          setShowConfirm(false); // Chiudiamo subito il modale per un feedback visivo istantaneo
+                          await handleLogout(); // Facciamo partire il logout
+                        }}
+                      >
+                        Conferma
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

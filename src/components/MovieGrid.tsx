@@ -54,7 +54,7 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           () => 0.5 - Math.random(),
         );
 
-        window.scrollTo({ top: 500, behavior: "smooth" });
+        window.scrollTo({ top: 1000, behavior: "smooth" });
 
         const mappedMovies: Movie[] = shuffledResults.map((tmdbMovie: any) => {
           const releaseYear = tmdbMovie.release_date
@@ -97,7 +97,7 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
 
   if (!selectedGenreId) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-700">
+      <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-700 select-none">
         <div className="w-24 h-24 rounded-full glass flex items-center justify-center mb-6 bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
           <svg
             xmlns="http://www.w3.org/2000/svg"

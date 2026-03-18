@@ -30,3 +30,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.active {
+  display: flex;
+  flex-direction: column;
+}
