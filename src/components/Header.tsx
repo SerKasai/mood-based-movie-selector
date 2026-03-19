@@ -101,19 +101,19 @@ export default function Header() {
                   aria-modal="true"
                   className="fixed inset-0 z-60 flex items-center justify-center bg-black/50"
                 >
-                  <div className="bg-black text-white p-6 rounded-md">
+                  <div className="bg-[#14161D] text-white p-6 rounded-2xl border-double border-4 border-[#0A0A0F]">
                     <p className="mb-4">
                       Sei sicuro di voler effettuare il logout?
                     </p>
                     <div className="flex gap-4 justify-center">
                       <button
-                        className="px-3 py-1 border rounded text-white border-none! bg-[#1a1a1a]!"
+                        className="px-3 py-1 border rounded text-white border-none! bg-[#0A0A0F]"
                         onClick={() => setShowConfirm(false)}
                       >
                         Annulla
                       </button>
                       <button
-                        className="px-3 py-1  text-red-600 rounded border-none! bg-[#1a1a1a]!"
+                        className="px-3 py-1  text-[#cb7dcc] rounded border-none! bg-[#0A0A0F]"
                         onClick={async (e) => {
                           e.stopPropagation(); // Evita che il click chiuda accidentalmente altri menu sotto al modale
                           setShowConfirm(false); // Chiudiamo subito il modale per un feedback visivo istantaneo
