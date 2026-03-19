@@ -46,7 +46,10 @@ function App() {
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {/* Hero Section */}
-              <section className="text-center mb-12 select-none">
+              <section
+                id="hero_section"
+                className="text-center mb-12 select-none"
+              >
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 text-balance">
                   Scopri i film che si adattano al tuo
                   <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
@@ -61,12 +64,12 @@ function App() {
               </section>
 
               {/* Stats Bar */}
-              <section className="mb-12 select-none">
+              <section id="stats_bar" className="mb-12 select-none">
                 <StatsBar />
               </section>
 
               {/* Mood Selector */}
-              <section className="mb-12 select-none">
+              <section id="mood_selector" className="mb-12 select-none">
                 <MoodSelector
                   selectedMood={selectedMood}
                   onSelectMood={toggleMood}
@@ -74,7 +77,7 @@ function App() {
               </section>
 
               {/* Movie Grid */}
-              <section>
+              <section id="movie_grid">
                 <MovieGrid selectedGenreId={selectedMood} />
               </section>
             </main>

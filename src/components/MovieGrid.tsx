@@ -6,10 +6,12 @@ import axios from "axios";
 interface Movie {
   id: number;
   title: string;
+  original_title: string; // nuovo
   year: number;
   rating: number;
   genre: string[];
   poster: string;
+  backdrop: string; // nuovo
   description: string;
   trailerUrl: string;
 }
@@ -71,11 +73,15 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           return {
             id: tmdbMovie.id,
             title: tmdbMovie.title,
+            original_title: tmdbMovie.original_title,
             year: releaseYear,
             rating: Math.round(tmdbMovie.vote_average * 10) / 10,
             genre: genreArray,
             poster: tmdbMovie.poster_path
               ? `https://image.tmdb.org/t/p/w342${tmdbMovie.poster_path}`
+              : "https://via.placeholder.com/500x750?text=No+Poster",
+            backdrop: tmdbMovie.backdrop_path
+              ? `https://image.tmdb.org/t/p/w342${tmdbMovie.backdrop_path}`
               : "https://via.placeholder.com/500x750?text=No+Poster",
             description:
               tmdbMovie.overview || "Descrizione non disponibile in italiano.",
@@ -185,6 +191,9 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
     <div className="w-full min-h-[500px]">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-foreground">Scelti per te</h2>
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          Clicca su una locandina per maggiori dettagli
+        </h1>
         <span className="text-sm text-muted-foreground">
           {movies.length} Film
         </span>

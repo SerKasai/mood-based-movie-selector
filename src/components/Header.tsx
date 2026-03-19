@@ -95,38 +95,38 @@ export default function Header() {
                   Logout
                 </button>
               </div>
-              {showConfirm && (
-                <div
-                  role="dialog"
-                  aria-modal="true"
-                  className="fixed inset-0 z-60 flex items-center justify-center bg-black/50"
-                >
-                  <div className="bg-[#14161D] text-white p-6 rounded-2xl border-double border-4 border-[#0A0A0F]">
-                    <p className="mb-4">
-                      Sei sicuro di voler effettuare il logout?
-                    </p>
-                    <div className="flex gap-4 justify-center">
-                      <button
-                        className="px-3 py-1 border rounded text-white border-none! bg-[#0A0A0F]"
-                        onClick={() => setShowConfirm(false)}
-                      >
-                        Annulla
-                      </button>
-                      <button
-                        className="px-3 py-1  text-[#cb7dcc] rounded border-none! bg-[#0A0A0F]"
-                        onClick={async (e) => {
-                          e.stopPropagation(); // Evita che il click chiuda accidentalmente altri menu sotto al modale
-                          setShowConfirm(false); // Chiudiamo subito il modale per un feedback visivo istantaneo
-                          await handleLogout(); // Facciamo partire il logout
-                        }}
-                      >
-                        Conferma
-                      </button>
-                    </div>
+            </div>
+            {showConfirm && (
+              <div
+                role="dialog"
+                aria-modal="true"
+                className="h-screen fixed inset-0 z-60 flex items-center justify-center bg-black/50"
+              >
+                <div className="bg-[#14161D] text-white p-6 rounded-2xl border-double border-4 border-[#0A0A0F]">
+                  <p className="mb-4">
+                    Sei sicuro di voler effettuare il logout?
+                  </p>
+                  <div className="flex gap-4 justify-center">
+                    <button
+                      className="px-3 py-1 border rounded text-white border-none! bg-[#0A0A0F] cursor-pointer"
+                      onClick={() => setShowConfirm(false)}
+                    >
+                      Annulla
+                    </button>
+                    <button
+                      className="px-3 py-1  text-[#cb7dcc] rounded border-none! bg-[#0A0A0F] cursor-pointer"
+                      onClick={async (e) => {
+                        e.stopPropagation(); // Evita che il click chiuda accidentalmente altri menu sotto al modale
+                        setShowConfirm(false); // Chiudiamo subito il modale per un feedback visivo istantaneo
+                        await handleLogout(); // Facciamo partire il logout
+                      }}
+                    >
+                      Conferma
+                    </button>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
