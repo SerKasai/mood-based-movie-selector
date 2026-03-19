@@ -39,7 +39,7 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           "https://api.themoviedb.org/3/discover/movie",
           {
             params: {
-              api_key: "6cad6dafb0a219bd44da63ec9029cbb4",
+              api_key: "0d3354632adb7f6817b24a58e0fd32dd",
               language: "it-IT",
               include_adult: false,
               include_video: false,
