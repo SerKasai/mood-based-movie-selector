@@ -65,7 +65,7 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
             {movie.genre.slice(0, 2).map((g) => (
               <span
                 key={g}
-                className={`${g} text-xs px-2.5 py-1 rounded-full text-secondary-foreground`}
+                className={`${g} bg-secondary text-xs px-2.5 py-1 rounded-full text-secondary-foreground`}
               >
                 {g}
               </span>
