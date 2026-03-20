@@ -1,4 +1,4 @@
-interface Movie {
+export interface Movie {
   id: number;
   title: string;
   original_title: string; // nuovo
@@ -11,12 +11,12 @@ interface Movie {
   trailerUrl: string;
 }
 
-interface MovieCardProps {
+export interface MovieCardProps {
   movie: Movie;
-  index: number;
+  index?: number;
 }
 
-export default function MovieCard({ movie, index }: MovieCardProps) {
+export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
   return (
     <>
       <div
@@ -101,43 +101,6 @@ export default function MovieCard({ movie, index }: MovieCardProps) {
             </svg>
             Trailer
           </a>
-        </div>
-      </div>
-      <div
-        id="film_details"
-        className="hidden group relative glass-card rounded-2xl overflow-hidden transition-all duration-500 flex h-[40vh]"
-      >
-        <div className="relative overflow-hidden">
-          <img
-            className="w-full h-full object-cover transition-transform duration-700"
-            alt={movie.title}
-            src={movie.backdrop}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 transition-opacity duration-300"></div>
-        </div>
-        <div className="p-4 flex flex-col justify-around w-full">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="text-lg font-semibold text-foreground line-clamp-1 transition-colors">
-              {movie.title}
-            </h3>
-            <span className="text-sm text-muted-foreground shrink-0">2009</span>
-          </div>
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-full">
-            {movie.description}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <div className="container-genres gap-1.5 flex grow">
-              {movie.genre.slice(0, 2).map((g) => (
-                <span
-                  key={g}
-                  className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground"
-                >
-                  {g}
-                </span>
-              ))}
-            </div>
-            <p className="text-muted-foreground">{movie.original_title}</p>
-          </div>
         </div>
       </div>
     </>

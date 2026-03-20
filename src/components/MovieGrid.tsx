@@ -1,20 +1,8 @@
-import MovieCard from "./MovieCard";
+import MovieCard, { type Movie } from "./MovieCard";
 import { getGenreNames } from "../utils/genreMap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-interface Movie {
-  id: number;
-  title: string;
-  original_title: string; // nuovo
-  year: number;
-  rating: number;
-  genre: string[];
-  poster: string;
-  backdrop: string; // nuovo
-  description: string;
-  trailerUrl: string;
-}
+import MovieDetails from "./MovieDetails";
 
 interface MovieGridProps {
   selectedGenreId: string | number | null;
@@ -25,16 +13,19 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   useEffect(() => {
     if (!selectedGenreId) {
       setMovies([]);
+      setSelectedMovie(null);
       return;
     }
 
     const fetchMovies = async () => {
       setIsLoading(true);
       setError(null);
+      setSelectedMovie(null);
 
       try {
         const response = await axios.get(
@@ -100,6 +91,16 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
 
     fetchMovies();
   }, [selectedGenreId, refreshKey]);
+
+  const handleMovieClick = (movie: Movie) => {
+    setSelectedMovie(movie);
+    setTimeout(() => {
+      document.getElementById("movie_details")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 100);
+  };
 
   if (!selectedGenreId) {
     return (
@@ -198,9 +199,17 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
           {movies.length} Film
         </span>
       </div>
+
+      {/* GRIGLIA DEL FILM */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {movies.map((movie, index) => (
-          <MovieCard key={movie.id} movie={movie} index={index} />
+          <div
+            key={movie.id}
+            onClick={() => handleMovieClick(movie)}
+            className="cursor-pointer hover:-translate-y-2 transition-transform duration-300"
+          >
+            <MovieCard movie={movie} index={index} />
+          </div>
         ))}
       </div>
       <button
@@ -222,6 +231,16 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
         </svg>
         Mostrami altri film
       </button>
+
+      {/* MOVIE DETAILS */}
+      <div id="movie_details">
+        {selectedMovie && (
+          <MovieDetails
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+          />
+        )}
+      </div>
     </div>
   );
 }
