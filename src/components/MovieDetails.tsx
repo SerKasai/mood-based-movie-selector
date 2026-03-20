@@ -16,7 +16,7 @@ export default function MovieDetails({ movie, onClose }: MovieDetailsProps) {
       </button>
       <div className="relative overflow-hidden w-1/3">
         <img
-          className="w-full h-full object-cover transition-transform duration-700"
+          className="w-full h-full object-contain transition-transform duration-700"
           alt={movie.title}
           src={movie.backdrop}
         />

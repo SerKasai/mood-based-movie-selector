@@ -70,10 +70,10 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
             genre: genreArray,
             poster: tmdbMovie.poster_path
               ? `https://image.tmdb.org/t/p/w342${tmdbMovie.poster_path}`
-              : "https://via.placeholder.com/500x750?text=No+Poster",
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s",
             backdrop: tmdbMovie.backdrop_path
               ? `https://image.tmdb.org/t/p/w342${tmdbMovie.backdrop_path}`
-              : "https://via.placeholder.com/500x750?text=No+Poster",
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s",
             description:
               tmdbMovie.overview || "Descrizione non disponibile in italiano.",
             trailerUrl: `https://www.youtube.com/results?search_query=${safeTitle}+trailer+ita+ufficiale`,
