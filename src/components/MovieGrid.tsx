@@ -190,9 +190,9 @@ export default function MovieGrid({ selectedGenreId }: MovieGridProps) {
 
   return (
     <div className="w-full min-h-[500px]">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col lg:flex-row gap-y-2.5 items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-foreground">Scelti per te</h2>
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+        <h1 className="text-2xl text-center font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
           Clicca su una locandina per maggiori dettagli
         </h1>
         <span className="text-sm text-muted-foreground">

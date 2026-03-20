@@ -20,7 +20,6 @@ export default function MovieDetails({ movie, onClose }: MovieDetailsProps) {
           alt={movie.title}
           src={movie.backdrop}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 transition-opacity duration-300"></div>
       </div>
       <div className="p-4 flex flex-col justify-around w-2/3">
         <div className="flex items-start justify-between gap-2 mb-2">
@@ -31,11 +30,11 @@ export default function MovieDetails({ movie, onClose }: MovieDetailsProps) {
             {movie.year}
           </span>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-full">
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-full overflow-auto!">
           {movie.description}
         </p>
         <div className="flex flex-wrap gap-2">
-          <div className="container-genres gap-1.5 flex grow">
+          <div className="container-genres gap-1.5 flex grow overflow-auto!">
             {movie.genre.map((g) => (
               <span
                 key={g}
