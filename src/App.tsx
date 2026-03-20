@@ -93,7 +93,11 @@ function App() {
                       />
                     </div>
                     <span className="text-sm font-semibold text-foreground">
-                      MoodFlix
+                      <img
+                        src="/logo_MoodFlix.png"
+                        alt="logo"
+                        className="h-6 object-contain"
+                      />
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground">
