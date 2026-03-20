@@ -35,7 +35,13 @@ export default function Header() {
             <div className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
               <img src="/emojione--movie-camera.png" alt="icon-camera" />
             </div>
-            <span className="text-xl font-bold text-foreground">MoodFlix</span>
+            <span className="text-xl font-bold text-foreground">
+              <img
+                src="/logo_MoodFlix.png"
+                alt="logo"
+                className="h-10 object-contain"
+              />
+            </span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <a
