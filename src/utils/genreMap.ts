@@ -1,3 +1,5 @@
+import "./genreMap.css";
+
 export const TMDB_GENRES: Record<number, string> = {
   28: "Azione",
   12: "Avventura",

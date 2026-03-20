@@ -1,0 +1,71 @@
+.Azione {
+  background-color: darkorange;
+}
+
+.Avventura {
+  background-color: green;
+}
+
+.Animazione {
+  background-color: yellow;
+}
+
+.Commedia {
+  background-color: blue;
+}
+
+.Crime {
+  background-color: darkgoldenrod;
+}
+
+.Documentario {
+  background-color: chocolate;
+}
+
+.Dramma {
+  background-color: brown;
+}
+
+.Famiglia {
+  background-color: dodgerblue;
+}
+
+.Fantasy {
+  background-color: saddlebrown;
+}
+
+.Storia {
+  background-color: maroon
+}
+
+.Horror {
+  background-color: red;
+}
+
+.Musica {
+  background-color: blueviolet;
+}
+
+.Mistero {
+  background-color: grey;
+}
+
+.Romance {
+  background-color: violet;
+}
+
+.Fantascienza {
+  background-color: navy;
+}
+
+.Thriller {
+  background-color: black;
+}
+
+.Guerra {
+  background-color: crimson;
+}
+
+.Western {
+  background-color: peru;
+}

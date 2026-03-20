@@ -62,10 +62,10 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
           </p>
 
           <div className="flex flex-wrap gap-2">
-            {movie.genre.slice(0, 2).map((g) => (
+            {movie.genre.slice(0, 3).map((g) => (
               <span
                 key={g}
-                className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground"
+                className={`${g} text-xs px-2.5 py-1 rounded-full text-secondary-foreground`}
               >
                 {g}
               </span>
