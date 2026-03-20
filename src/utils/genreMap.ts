@@ -16,7 +16,7 @@ export const TMDB_GENRES: Record<number, string> = {
   9648: "Mistero",
   10749: "Romance",
   878: "Fantascienza",
-  10770: "Film TV",
+  10770: "Serie",
   53: "Thriller",
   10752: "Guerra",
   37: "Western",
