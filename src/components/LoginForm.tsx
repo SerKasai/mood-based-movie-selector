@@ -1,11 +1,19 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, googleProvider } from "./FireBase/firebaseConfig";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Funzione login classico
   const handleEmailLogin = async (e: React.FormEvent) => {
@@ -18,14 +26,44 @@ const LoginForm = () => {
     }
   };
 
+  const handleEmailRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    // Doppio check della password
+    if (password !== confirmPassword) {
+      setError("Le password non corrispondono.");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err: any) {
+      console.error(err);
+      setError(
+        "Errore durante la registrazione. Email già in uso o password troppo debole",
+      );
+    }
+  };
+
   // Funzione per il login con Google
   const handleGoogleLogin = async () => {
     setError("");
     try {
-      signInWithPopup(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
     } catch (err: any) {
       setError("Errore durante l'accesso con Google");
     }
+  };
+
+  // Funzione per pulire i cambi ad ogni cambio form
+  const toggleForm = () => {
+    setIsRegistering(!isRegistering);
+    setError("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setUsername("");
   };
 
   return (
@@ -46,66 +84,167 @@ const LoginForm = () => {
             </span>
           </div>
 
-          {/* FORM EMAIL E PASSWORD */}
-          <form onSubmit={handleEmailLogin} className="mt-5">
-            <label
-              htmlFor="login"
-              className="font-semibold text-sm text-gray-400 pb-1 block"
-            >
-              E-mail
-            </label>
-            <input
-              id="login"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
-            />
-            <label
-              htmlFor="password"
-              className="font-semibold text-sm text-gray-400 pb-1 block"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
-            />
-            {/* GESTIONE ERRORI */}
-            {error && (
-              <p className="text-red-500 text-xs font-semibold mb-3">{error}</p>
-            )}
-            <div className="text-right mb-4">
-              <a
-                href="#"
-                className="text-xs font-display font-semibold text-gray-500 hover:text-gray-400 cursor-pointer"
-              >
-                Password dimenticata?
-              </a>
-            </div>
-            <div className="mt-5 mb-6">
-              <button
-                type="submit"
-                className="py-2 px-4 glass-card hover:bg-[#0A0A0F]! focus:#CB6C95 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-              >
-                Accedi
-              </button>
-            </div>
-          </form>
+          {/* TITOLO FORM */}
+          <h2 className="text-center font-bold text-xl mb-4">
+            {isRegistering ? "Crea un account" : "Bentornato"}
+          </h2>
 
-          {/* DIVISORE */}
-          <div className="flex items-center justify-between mb-6">
-            <span className="w-1/5 border-b border-gray-600 md:w-1/4" />
-            <span className="text-xs text-gray-500 uppercase">
-              o accedi con
-            </span>
-            <span className="w-1/5 border-b border-gray-600 md:w-1/4" />
-          </div>
+          {/* GESTIONE ERRORI GLOBALE */}
+          {error && (
+            <div className="bg-red-500/10 border border-red-500 text-red-500 text-sm font-semibold p-3 rounded-lg mb-4 text-center">
+              {error}
+            </div>
+          )}
+
+          {!isRegistering ? (
+            <>
+              {/* FORM EMAIL E PASSWORD */}
+              <form onSubmit={handleEmailLogin} className="mt-5">
+                <label
+                  htmlFor="login-mail"
+                  className="font-semibold text-sm text-gray-400 pb-1 block"
+                >
+                  E-mail
+                </label>
+                <input
+                  id="login-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                />
+                <label
+                  htmlFor="login-password"
+                  className="font-semibold text-sm text-gray-400 pb-1 block"
+                >
+                  Password
+                </label>
+                <input
+                  id="login-password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                />
+                <div className="text-right mb-4">
+                  <a
+                    href="#"
+                    className="text-xs font-display font-semibold text-gray-500 hover:text-gray-400 cursor-pointer"
+                  >
+                    Password dimenticata?
+                  </a>
+                </div>
+                <div className="mt-5 mb-6">
+                  <button
+                    type="submit"
+                    className="py-2 px-4 glass-card hover:bg-[#0A0A0F]! focus:#CB6C95 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
+                  >
+                    Accedi
+                  </button>
+                </div>
+              </form>
+              {/* DIVISORE LOGIN */}
+              <div className="flex items-center justify-between mb-6">
+                <span className="w-1/5 border-b border-gray-600 md:w-1/4" />
+                <span className="text-xs text-gray-500 uppercase">
+                  o accedi con
+                </span>
+                <span className="w-1/5 border-b border-gray-600 md:w-1/4" />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* FORM DI REGISTRAZIONE */}
+              <form onSubmit={handleEmailRegister}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      className="font-semibold text-sm text-gray-400 pb-1 block"
+                      htmlFor="reg-username"
+                    >
+                      Username
+                    </label>
+                    <input
+                      id="reg-username"
+                      type="text"
+                      required
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="font-semibold text-sm text-gray-400 pb-1 block"
+                      htmlFor="reg-email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="reg-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="font-semibold text-sm text-gray-400 pb-1 block"
+                      htmlFor="reg-password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      id="reg-password"
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="font-semibold text-sm text-gray-400 pb-1 block"
+                      htmlFor="reg-confirm-password"
+                    >
+                      Conferma Password
+                    </label>
+                    <input
+                      id="reg-confirm-password"
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full bg-gray-700 text-white focus:border-[#7c0c92] focus:ring-4 focus:ring-[#7c0c92]"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-8 mb-6">
+                  <button
+                    type="submit"
+                    className="py-2 px-4 bg-gray-800 hover:bg-[#7c0c92] text-white w-full transition-colors duration-300 text-center text-base font-semibold shadow-md rounded-lg"
+                  >
+                    Registrati
+                  </button>
+                </div>
+              </form>
+
+              {/* DIVISORE REGISTRAZIONE */}
+              <div className="flex items-center justify-between mb-6">
+                <span className="w-1/5 border-b border-gray-600 md:w-1/4"></span>
+                <span className="text-xs text-gray-500 uppercase">
+                  O registrati con
+                </span>
+                <span className="w-1/5 border-b border-gray-600 md:w-1/4"></span>
+              </div>
+            </>
+          )}
 
           {/* BOTTONI SOCIAL */}
           <div className="flex justify-center items-center flex-col gap-4">
@@ -179,14 +318,18 @@ const LoginForm = () => {
               />
             </svg>
           </div>
-          <div className="flex items-center justify-between mt-4">
+
+          {/* PULSANTE CAMBIO FORM */}
+          <div className="flex items-center justify-between mt-8">
             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
-            <a
-              href="#"
-              className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
+            <button
+              onClick={toggleForm}
+              className="text-xs text-gray-400 uppercase hover:text-white transition-colors hover:underline"
             >
-              o registrati
-            </a>
+              {isRegistering
+                ? "Hai già un account? Login"
+                : "Oppure registrati"}
+            </button>
             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
           </div>
         </div>
