@@ -272,7 +272,7 @@ const LoginForm = () => {
               <div className="flex items-center justify-between mt-4">
                 <span className="w-1/5 border-b dark:border-gray-600 md:w-24"></span>
                 <p
-                  className="text-xs text-gray-500 uppercase dark:text-gray-500 hover:text-white cursor-pointer"
+                  className="text-xs text-center text-gray-500 uppercase dark:text-gray-500 hover:text-white cursor-pointer"
                   onClick={() => setView("login")}
                 >
                   Hai già un account? Fai il Login
