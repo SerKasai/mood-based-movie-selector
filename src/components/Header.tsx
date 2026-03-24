@@ -69,14 +69,17 @@ export default function Header() {
               About
             </NavLink>
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             {/* <SearchBar value={searchValue ?? ""} onChange={onSearchChange} /> */}
             <div className="user-menu cursor-pointer" onClick={toggleClass}>
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
                 <img
-                  src={userPhoto}
+                  src={
+                    userPhoto ||
+                    "https://api.dicebear.com/7.x/avataaars/svg?seed=MoodFlix"
+                  }
                   alt="user-avatar"
-                  className="rounded-full"
+                  className="rounded-full w-full h-full object-cover"
                 />
               </div>
               <div
@@ -88,6 +91,47 @@ export default function Header() {
                 >
                   Logout
                 </button>
+              </div>
+            </div>
+          </div>
+          <div id="hamburger-menu" className="flex lg:hidden">
+            <nav className="hidden md:flex items-center gap-8">
+              <NavLink to="/" className={navLinkStyles}>
+                Home
+              </NavLink>
+              <NavLink to="/discover" className={navLinkStyles}>
+                Discover
+              </NavLink>
+              <NavLink to="/watchlist" className={navLinkStyles}>
+                Watchlist
+              </NavLink>
+              <NavLink to="/about" className={navLinkStyles}>
+                About
+              </NavLink>
+            </nav>
+            <div className="hidden lg:flex items-center gap-4">
+              {/* <SearchBar value={searchValue ?? ""} onChange={onSearchChange} /> */}
+              <div className="user-menu cursor-pointer" onClick={toggleClass}>
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
+                  <img
+                    src={
+                      userPhoto ||
+                      "https://api.dicebear.com/7.x/avataaars/svg?seed=MoodFlix"
+                    }
+                    alt="user-avatar"
+                    className="rounded-full w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  className={`${isactive ? "active" : ""} glass-card rounded-2xl absolute top-16 justify-self-center hidden items-center justify-center mr-8 lg:m-0`}
+                >
+                  <button
+                    onClick={() => setShowConfirm(true)}
+                    className="cursor-pointer select-none rounded-2xl p-2.5 m-2.5 bg-[#0A0A0F] hover:bg-[#cb7dcc]"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
             {showConfirm && (

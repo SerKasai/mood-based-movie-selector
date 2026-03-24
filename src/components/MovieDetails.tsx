@@ -33,7 +33,7 @@ export default function MovieDetails({ movie, onClose }: MovieDetailsProps) {
           <h3 className="text-lg font-semibold text-foreground line-clamp-1 transition-colors">
             {movie.title}
           </h3>
-          <span className="text-sm text-muted-foreground shrink-0 pr-10">
+          <span className="text-sm text-muted-foreground shrink-0 p-0 lg:pr-10">
             {movie.year}
           </span>
         </div>
