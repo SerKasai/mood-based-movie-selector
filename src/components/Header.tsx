@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../components/FireBase/firebaseConfig";
+import { Link, NavLink } from "react-router-dom";
+// import SearchBar from "./searchbar/SearchBar";
 
 export default function Header() {
   const [isactive, setIsActive] = useState(false);
@@ -27,66 +29,48 @@ export default function Header() {
       console.error("Errore durante il logout:", error);
     }
   };
+
+  const navLinkStyles = ({ isActive }: { isActive: boolean }) =>
+    `text-sm font-medium transition-colors ${
+      isActive
+        ? "text-primary" // Classi per il tasto attivo
+        : "text-muted-foreground hover:text-foreground" // Classi per i tasti inattivi
+    }`;
+
   return (
     <header className="sticky top-0 z-50 glass border-b border-border select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
-              <img src="/emojione--movie-camera.png" alt="icon-camera" />
-            </div>
-            <span className="text-xl font-bold text-foreground">
-              <img
-                src="/logo_MoodFlix.png"
-                alt="logo"
-                className="h-10 object-contain"
-              />
-            </span>
+            <Link to="/" className="flex">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
+                <img src="/emojione--movie-camera.png" alt="icon-camera" />
+              </div>
+              <span className="text-xl font-bold text-foreground">
+                <img
+                  src="/logo_MoodFlix.png"
+                  alt="logo"
+                  className="h-10 object-contain"
+                />
+              </span>
+            </Link>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#"
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-            >
+            <NavLink to="/" className={navLinkStyles}>
               Home
-            </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
+            </NavLink>
+            <NavLink to="/discover" className={navLinkStyles}>
               Discover
-            </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
+            </NavLink>
+            <NavLink to="/watchlist" className={navLinkStyles}>
               Watchlist
-            </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
+            </NavLink>
+            <NavLink to="/about" className={navLinkStyles}>
               About
-            </a>
+            </NavLink>
           </nav>
           <div className="flex items-center gap-4">
-            <button
-              className="p-2 rounded-xl hover:bg-secondary transition-colors"
-              aria-label="Search"
-            >
-              <svg
-                className="w-5 h-5 text-muted-foreground"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </svg>
-            </button>
+            {/* <SearchBar value={searchValue ?? ""} onChange={onSearchChange} /> */}
             <div className="user-menu cursor-pointer" onClick={toggleClass}>
               <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
                 <img
