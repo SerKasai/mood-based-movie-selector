@@ -1,12 +1,12 @@
 export interface Movie {
   id: number;
   title: string;
-  original_title: string; // nuovo
+  original_title: string;
   year: number;
   rating: number;
   genre: string[];
   poster: string;
-  backdrop: string; // nuovo
+  backdrop: string;
   description: string;
   trailerUrl: string;
 }
@@ -20,7 +20,7 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
   return (
     <>
       <div
-        className="group relative glass-card rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+        className="h-full group relative glass-card rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
         style={{ animationDelay: `${index * 100}ms` }}
       >
         {/* Poster */}
@@ -47,7 +47,7 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-4 hidden lg:flex flex-col gap-y-2.5">
           <div className="flex items-start justify-between gap-2 mb-2">
             <h3 className="text-lg font-semibold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
               {movie.title}

@@ -8,42 +8,42 @@ interface Mood {
 
 const moods: Mood[] = [
   {
-    id: 35,
+    id: 35, // Commedia
     name: "Felice",
     icon: "felice",
     color: "text-yellow-400",
     gradient: "from-yellow-400/20 to-orange-400/20",
   },
   {
-    id: 18,
+    id: 18, // Dramma
     name: "Triste",
     icon: "triste",
     color: "text-blue-400",
     gradient: "from-blue-400/20 to-indigo-400/20",
   },
   {
-    id: 28,
+    id: 28, // Azione
     name: "Eccitato",
     icon: "eccitato",
     color: "text-orange-400",
     gradient: "from-orange-400/20 to-red-400/20",
   },
   {
-    id: 99,
+    id: 99, // Documentario
     name: "Rilassato",
     icon: "rilassato",
     color: "text-emerald-400",
     gradient: "from-emerald-400/20 to-teal-400/20",
   },
   {
-    id: 10749,
+    id: 10749, // Romance
     name: "Romantico",
     icon: "romantico",
     color: "text-pink-400",
     gradient: "from-pink-400/20 to-rose-400/20",
   },
   {
-    id: 27,
+    id: 27, // Horror
     name: "Spaventato",
     icon: "spaventato",
     color: "text-purple-400",

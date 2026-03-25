@@ -89,7 +89,10 @@ function App() {
               }
             />
 
-            <Route path="/discover" element={<Discover />} />
+            <Route
+              path="/discover"
+              element={<Discover selectedGenreId={selectedMood} />}
+            />
           </Routes>
 
           <footer className="border-t border-border mt-16">
