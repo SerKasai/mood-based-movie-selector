@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../components/FireBase/firebaseConfig";
 import { Link, NavLink } from "react-router-dom";
-// import SearchBar from "./searchbar/SearchBar";
+
+// 1. Definiamo i link fuori dal componente per mantenere il codice pulito (DRY)
+const NAV_LINKS = [
+  { path: "/", label: "Home" },
+  { path: "/discover", label: "Discover" },
+  { path: "/watchlist", label: "Watchlist" },
+  { path: "/about", label: "About" },
+];
 
 export default function Header() {
   const [isactive, setIsActive] = useState(false);
@@ -11,16 +18,10 @@ export default function Header() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user?.photoURL) {
-        setUserPhoto(user.photoURL);
-      }
+      if (user?.photoURL) setUserPhoto(user.photoURL);
     });
     return unsubscribe;
   }, []);
-
-  const toggleClass = () => {
-    setIsActive(!isactive);
-  };
 
   const handleLogout = async () => {
     try {
@@ -33,91 +34,122 @@ export default function Header() {
   const navLinkStyles = ({ isActive }: { isActive: boolean }) =>
     `text-sm font-medium transition-colors ${
       isActive
-        ? "text-[#9605bb]" // Classi per il tasto attivo
-        : "text-muted-foreground hover:text-foreground" // Classi per i tasti inattivi
+        ? "text-[#9605bb]"
+        : "text-muted-foreground hover:text-foreground"
     }`;
 
+  // 2. Mini-componente per l'Avatar così non duplichiamo l'HTML
+  const UserAvatar = () => (
+    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
+      <img
+        src={
+          userPhoto ||
+          "https://api.dicebear.com/7.x/avataaars/svg?seed=MoodFlix"
+        }
+        alt="user-avatar"
+        className="rounded-full w-full h-full object-cover"
+      />
+    </div>
+  );
+
   return (
-    <header className="sticky top-0 z-50 glass border-b border-border select-none">
+    // Ho aggiunto bg-black/50 all'header principale per fargli avere l'effetto vetro
+    <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-md select-none border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* LOGO SECTION */}
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
-                <img src="/emojione--movie-camera.png" alt="icon-camera" />
-              </div>
-              <span className="text-xl font-bold text-foreground">
-                <img
-                  src="/logo_MoodFlix.png"
-                  alt="logo"
-                  className="h-10 object-contain"
-                />
-              </span>
-            </Link>
-          </div>
+          {/* LOGO */}
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center">
+              <img src="/emojione--movie-camera.png" alt="icon-camera" />
+            </div>
+            <img
+              src="/logo_MoodFlix.png"
+              alt="logo"
+              className="h-10 object-contain"
+            />
+          </Link>
 
           {/* DESKTOP NAV */}
           <nav className="hidden md:flex items-center gap-8">
-            <NavLink to="/" className={navLinkStyles}>
-              Home
-            </NavLink>
-            <NavLink to="/discover" className={navLinkStyles}>
-              Discover
-            </NavLink>
-            <NavLink to="/watchlist" className={navLinkStyles}>
-              Watchlist
-            </NavLink>
-            <NavLink to="/about" className={navLinkStyles}>
-              About
-            </NavLink>
+            {NAV_LINKS.map((link) => (
+              <NavLink key={link.path} to={link.path} className={navLinkStyles}>
+                {link.label}
+              </NavLink>
+            ))}
           </nav>
 
-          {/* USER MENU (Sia Desktop che Mobile) */}
-          <div className="flex items-center gap-4">
-            <div
-              className="user-menu relative cursor-pointer"
-              onClick={toggleClass}
+          {/* RIGHT SECTION: USER & MOBILE TOGGLE */}
+          <div className="relative flex items-center">
+            <button
+              onClick={() => setIsActive(!isactive)}
+              className="cursor-pointer focus:outline-none"
             >
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
-                <img
-                  src={
-                    userPhoto ||
-                    "https://api.dicebear.com/7.x/avataaars/svg?seed=MoodFlix"
-                  }
-                  alt="user-avatar"
-                  className="rounded-full w-full h-full object-cover"
-                />
+              {/* Desktop: mostra Avatar / Mobile: mostra Hamburger */}
+              <div className="hidden md:block">
+                <UserAvatar />
               </div>
+              <div className="block md:hidden">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#3B82F6"
+                    d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1M3 7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1"
+                  />
+                </svg>
+              </div>
+            </button>
 
-              {/* Dropdown Menu - Rimosso 'hidden' fisso e aggiunto controllo isactive */}
-              {isactive && (
-                <div className="glass-card rounded-2xl absolute top-12 right-0 flex items-center justify-center min-w-[120px] shadow-xl border border-white/10 bg-black/80 backdrop-blur-md">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Evita di chiudere il menu prima di aprire il popup
-                      setShowConfirm(true);
-                      setIsActive(false); // Chiude il dropdown dopo il click
-                    }}
-                    className="cursor-pointer select-none rounded-xl p-2.5 m-2 bg-[#7c0c92] hover:bg-[#620a74] text-white text-sm w-full transition-colors"
-                  >
-                    Logout
-                  </button>
+            {/* DROPDOWN MENU (Sia Desktop che Mobile) */}
+            {isactive && (
+              <div className="fixed lg:absolute top-16 lg:top-12.5 right-0 w-full md:w-[200px] bg-[#0A0A0F]/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-4 flex flex-col gap-4 origin-top-right animate-in fade-in zoom-in-95">
+                {/* Dettagli utente per il mobile dentro al menu */}
+                <div className="flex flex-col items-center pb-4 border-b border-white/10 md:hidden">
+                  <UserAvatar />
                 </div>
-              )}
-            </div>
+
+                {/* Mobile Nav Links (nascosti su Desktop) */}
+                <nav className="flex flex-col items-center gap-3 md:hidden border-b border-white/10 pb-4">
+                  {NAV_LINKS.map((link) => (
+                    <NavLink
+                      key={link.path}
+                      to={link.path}
+                      className={navLinkStyles}
+                      onClick={() => setIsActive(false)} // Chiude il menu al click
+                    >
+                      {link.label}
+                    </NavLink>
+                  ))}
+                </nav>
+
+                {/* Logout Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowConfirm(true);
+                    setIsActive(false);
+                  }}
+                  className="w-full text-center cursor-pointer rounded-xl py-2 bg-[#7c0c92]/20 hover:bg-[#7c0c92] text-white text-sm font-semibold transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* POPUP DI CONFERMA - Spostato qui fuori così è globale */}
+      {/* MODALE DI CONFERMA LOGOUT */}
       {showConfirm && (
         <div
           role="dialog"
           aria-modal="true"
-          className="h-screen fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
         >
-          <div className="bg-[#14161D] text-white p-6 rounded-2xl border-2 border-primary/20 shadow-2xl max-w-sm w-full mx-4">
+          <div className="bg-[#14161D] text-white p-6 rounded-2xl border border-white/10 shadow-2xl max-w-sm w-full mx-4 animate-in fade-in zoom-in-95">
             <p className="mb-6 text-center text-lg font-medium">
               Sei sicuro di voler uscire?
             </p>
@@ -130,8 +162,7 @@ export default function Header() {
               </button>
               <button
                 className="px-6 py-2 rounded-xl bg-[#7c0c92] hover:bg-[#620a74] transition-colors cursor-pointer font-bold"
-                onClick={async (e) => {
-                  e.stopPropagation();
+                onClick={async () => {
                   setShowConfirm(false);
                   await handleLogout();
                 }}
