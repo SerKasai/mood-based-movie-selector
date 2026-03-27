@@ -1,3 +1,8 @@
+import { useState } from "react";
+import UseAnimations from "react-useanimations";
+import star from "react-useanimations/lib/star";
+import { AnimateIcon } from "./animate-ui/icons/icon";
+import { Star } from "./animate-ui/icons/star";
 export interface Movie {
   id: number;
   title: string;
@@ -17,6 +22,8 @@ export interface MovieCardProps {
 }
 
 export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
+  const [checked, setChecked] = useState(false);
+
   return (
     <>
       <div
@@ -35,10 +42,15 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
           {/* Rating Badge */}
           <div className="absolute top-3 right-3 glass px-2.5 py-1 rounded-full flex items-center gap-1.5">
             <svg
-              className="w-4 h-4 text-yellow-400 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
             >
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              <path
+                fill="#ffc600"
+                d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
+              />
             </svg>
             <span className="text-sm font-semibold text-foreground">
               {movie.rating}
@@ -75,6 +87,33 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
 
         {/* Hover Overlay */}
         <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/80 backdrop-blur-sm">
+          {/* Bottone Preferiti */}
+          <button
+            onClick={(e) => {
+              e.preventDefault(); // Previene comportamenti di default
+              e.stopPropagation(); // Evita che il click "buchi" e clicchi la card sottostante
+              setChecked(!checked);
+
+              // TODO: Qui aggiungeremo la logica per salvare il film nel database o Context
+            }}
+            className="z-50 absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
+          >
+            <AnimateIcon
+              animateOnTap
+              animate={checked}
+              persistOnAnimateEnd={true}
+              animation="fill"
+            >
+              <Star
+                className={
+                  checked ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
+                }
+              />
+            </AnimateIcon>
+            <span className="text-sm font-semibold text-foreground">
+              {checked ? "Salvato" : "Aggiungi"}
+            </span>
+          </button>
           <a
             href={movie.trailerUrl} // Usiamo il link dinamico
             target="_blank" // Apre in una nuova scheda
@@ -101,6 +140,32 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
             </svg>
             Trailer
           </a>
+          <button
+            onClick={(e) => {
+              e.preventDefault(); // Previene comportamenti di default
+              e.stopPropagation(); // Evita che il click "buchi" e clicchi la card sottostante
+              setChecked(!checked);
+
+              // TODO: Qui aggiungeremo la logica per salvare il film nel database o Context
+            }}
+            className="z-50 absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex lg:hidden items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
+          >
+            <AnimateIcon
+              animateOnTap
+              animate={checked}
+              persistOnAnimateEnd={true}
+              animation="fill"
+            >
+              <Star
+                className={
+                  checked ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
+                }
+              />
+            </AnimateIcon>
+            <span className="text-sm font-semibold text-foreground">
+              {checked ? "Salvato" : "Aggiungi"}
+            </span>
+          </button>
         </div>
       </div>
     </>

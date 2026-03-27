@@ -3,6 +3,7 @@ import "tailwindcss";
 import "./App.css";
 import Header from "./components/Header";
 import Discover from "./pages/Discover";
+import Watchlist from "./pages/Watchlist";
 import StatsBar from "./components/StatsBar";
 import MoodSelector from "./components/MoodSelector";
 import MovieGrid from "./components/MovieGrid";
@@ -93,6 +94,8 @@ function App() {
               path="/discover"
               element={<Discover selectedGenreId={selectedMood} />}
             />
+
+            <Route path="/watchlist" element={<Watchlist />} />
           </Routes>
 
           <footer className="border-t border-border mt-16">

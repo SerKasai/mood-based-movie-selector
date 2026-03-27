@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../components/FireBase/firebaseConfig";
 import { Link, NavLink } from "react-router-dom";
+import { Squash as Hamburger } from "hamburger-react";
 
 // 1. Definiamo i link fuori dal componente per mantenere il codice pulito (DRY)
 const NAV_LINKS = [
@@ -89,17 +90,7 @@ export default function Header() {
                 <UserAvatar />
               </div>
               <div className="block md:hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="#3B82F6"
-                    d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1m0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1M3 7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1"
-                  />
-                </svg>
+                <Hamburger color="#3B82F6" rounded />
               </div>
             </button>
 

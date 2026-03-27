@@ -2,7 +2,7 @@ import MovieCard, { type Movie } from "./MovieCard";
 import { getGenreNames } from "../utils/genreMap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import MovieDetails from "./MovieDetails";
+import MovieDetails from "./MovieDetails/MovieDetails";
 
 interface MovieGridProps {
   selectedGenreId: string | number | null;

@@ -1,4 +1,5 @@
-import { type MovieCardProps } from "./MovieCard";
+import "./MovieDetails.css";
+import { type MovieCardProps } from "../MovieCard";
 
 interface MovieDetailsProps extends MovieCardProps {
   onClose: () => void;
@@ -37,11 +38,11 @@ export default function MovieDetails({ movie, onClose }: MovieDetailsProps) {
             {movie.year}
           </span>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-full overflow-auto!">
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-full overflow-auto! scrollbar">
           {movie.description}
         </p>
-        <div className="flex flex-wrap gap-2">
-          <div className="container-genres gap-1.5 flex grow overflow-auto!">
+        <div className="grid grid-flow-col justify-between gap-2">
+          <div className="container-genres gap-1.5 flex grow overflow-auto! items-end scrollbar">
             {movie.genre.map((g) => (
               <span
                 key={g}
