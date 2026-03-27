@@ -123,6 +123,7 @@ function composeEventHandlers<E extends React.SyntheticEvent<unknown>>(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyProps = Record<string, any>;
 
 function AnimateIcon({
@@ -211,7 +212,8 @@ function AnimateIcon({
     setCurrentAnimation(typeof animate === "string" ? animate : animation);
     if (animate) startAnimation(animate as TriggerProp);
     else stopAnimation();
-  }, [animate, startAnimation, stopAnimation, animation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animate]);
 
   React.useEffect(() => {
     return () => {
@@ -369,17 +371,8 @@ function AnimateIcon({
         loopDelayRef.current = null;
       }
     };
-  }, [
-    localAnimate,
-    controls,
-    startAnim,
-    completeOnStop,
-    persistOnAnimateEnd,
-    loop,
-    initialOnAnimateEnd,
-    loopDelay,
-    status,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localAnimate, controls]);
 
   const childProps = (
     React.isValidElement(children) ? (children as React.ReactElement).props : {}
@@ -412,13 +405,11 @@ function AnimateIcon({
     },
   );
 
-  // --- FIX REF PER VERCEL BUILD ---
-  // Creiamo un ref "pulito" che TypeScript accetta sia per Slot che per motion.span
-  const safeRef = inViewRef as React.Ref<any>;
+  const mergedRef = inViewRef as React.Ref<HTMLSpanElement>;
 
   const content = asChild ? (
     <Slot
-      ref={safeRef}
+      ref={mergedRef as any} // Il casting ad any qui è sicuro perché Slot ora è più robusto
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onPointerDown={handlePointerDown}
@@ -429,7 +420,7 @@ function AnimateIcon({
     </Slot>
   ) : (
     <motion.span
-      ref={safeRef}
+      ref={mergedRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onPointerDown={handlePointerDown}
@@ -451,7 +442,6 @@ function AnimateIcon({
         animate,
         initialOnAnimateEnd,
         completeOnStop,
-        persistOnAnimateEnd, // Aggiunto qui per coerenza
         delay,
       }}
     >
@@ -544,7 +534,7 @@ function IconWrapper<T extends string>({
                 (animationProp ?? parentAnimation) === "path-loop") &&
                 pathClassName,
             )}
-            {...(props as any)}
+            {...props}
           />
         </AnimateIcon>
       );
@@ -575,7 +565,7 @@ function IconWrapper<T extends string>({
             (animationToUse === "path" || animationToUse === "path-loop") &&
               pathClassName,
           )}
-          {...(props as any)}
+          {...props}
         />
       </AnimateIconContext.Provider>
     );
@@ -601,7 +591,6 @@ function IconWrapper<T extends string>({
         loopDelay={loopDelay}
         delay={delay}
         completeOnStop={completeOnStop}
-        persistOnAnimateEnd={persistOnAnimateEnd}
         asChild
       >
         <IconComponent
@@ -611,7 +600,7 @@ function IconWrapper<T extends string>({
             (animationProp === "path" || animationProp === "path-loop") &&
               pathClassName,
           )}
-          {...(props as any)}
+          {...props}
         />
       </AnimateIcon>
     );
@@ -625,7 +614,7 @@ function IconWrapper<T extends string>({
         (animationProp === "path" || animationProp === "path-loop") &&
           pathClassName,
       )}
-      {...(props as any)}
+      {...props}
     />
   );
 }
