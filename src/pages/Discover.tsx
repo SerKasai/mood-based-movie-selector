@@ -1,8 +1,8 @@
 import "tailwindcss";
 import axios from "axios";
-import MovieCard, { type Movie } from "../components/MovieCard";
+import MovieCard, { type Movie } from "@/components/MovieCard";
 import { useEffect, useState } from "react";
-import { getGenreNames } from "../utils/genreMap";
+import { getGenreNames } from "@/utils/genreMap";
 
 interface DiscoverProps {
   selectedGenreId: string | number | null;

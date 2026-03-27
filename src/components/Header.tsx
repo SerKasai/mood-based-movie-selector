@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../components/FireBase/firebaseConfig";
+import { auth } from "@/components/FireBase/firebaseConfig";
 import { Link, NavLink } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
 
