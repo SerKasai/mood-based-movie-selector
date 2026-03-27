@@ -1,9 +1,9 @@
-type myMovie = {
-  id: number;
-  name: string;
-};
+// type myMovie = {
+//   id: number;
+//   name: string;
+// };
 
-const myWatchlist = [];
+// const myWatchlist = [];
 
 export default function Watchlist() {
   return (

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import UseAnimations from "react-useanimations";
-import star from "react-useanimations/lib/star";
 import { AnimateIcon } from "./animate-ui/icons/icon";
 import { Star } from "./animate-ui/icons/star";
 export interface Movie {
