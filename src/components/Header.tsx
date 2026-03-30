@@ -138,7 +138,7 @@ export default function Header() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          className="fixed h-screen inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
         >
           <div className="bg-[#14161D] text-white p-6 rounded-2xl border border-white/10 shadow-2xl max-w-sm w-full mx-4 animate-in fade-in zoom-in-95">
             <p className="mb-6 text-center text-lg font-medium">

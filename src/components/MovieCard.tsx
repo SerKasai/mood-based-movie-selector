@@ -94,7 +94,7 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
 
               // TODO: Qui aggiungeremo la logica per salvare il film nel database o Context
             }}
-            className="z-50 absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
+            className="absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
           >
             <AnimateIcon
               animateOnTap
