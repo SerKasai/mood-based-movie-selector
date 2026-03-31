@@ -1,6 +1,8 @@
-import { useState } from "react";
+"use client";
+
 import { AnimateIcon } from "./animate-ui/icons/icon";
 import { Star } from "./animate-ui/icons/star";
+import { useFavoritesStore } from "@/store/useFavoritesStore";
 export interface Movie {
   id: number;
   title: string;
@@ -20,8 +22,14 @@ export interface MovieCardProps {
 }
 
 export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
-  const [checked, setChecked] = useState(false);
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  const isFav = useFavoritesStore((state) => state.isFavorite(movie.id));
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    toggleFavorite(movie);
+  };
   return (
     <>
       <div
@@ -85,35 +93,29 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
 
         {/* Hover Overlay */}
         <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-background/80 backdrop-blur-sm">
-          {/* Bottone Preferiti */}
+          {/* Bottone Preferiti DESKTOP */}
           <button
-            onClick={(e) => {
-              e.preventDefault(); // Previene comportamenti di default
-              e.stopPropagation(); // Evita che il click "buchi" e clicchi la card sottostante
-              setChecked(!checked);
-
-              // TODO: Qui aggiungeremo la logica per salvare il film nel database o Context
-            }}
+            onClick={handleToggleFavorite}
             className="absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
           >
             <AnimateIcon
               animateOnTap
-              animate={checked}
+              animate={isFav}
               persistOnAnimateEnd={true}
               animation="fill"
             >
               <Star
                 className={
-                  checked ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
+                  isFav ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
                 }
               />
             </AnimateIcon>
             <span className="text-sm font-semibold text-foreground">
-              {checked ? "Salvato" : "Aggiungi"}
+              {isFav ? "Salvato" : "Aggiungi"}
             </span>
           </button>
           <a
-            href={movie.trailerUrl} // Usiamo il link dinamico
+            href={movie.trailerUrl} // Link dinamico
             target="_blank" // Apre in una nuova scheda
             rel="noopener noreferrer" // Sicurezza per i link esterni
             className="px-6 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition-colors flex items-center gap-2"
@@ -138,30 +140,26 @@ export default function MovieCard({ movie, index = 0 }: MovieCardProps) {
             </svg>
             Trailer
           </a>
-          <button
-            onClick={(e) => {
-              e.preventDefault(); // Previene comportamenti di default
-              e.stopPropagation(); // Evita che il click "buchi" e clicchi la card sottostante
-              setChecked(!checked);
 
-              // TODO: Qui aggiungeremo la logica per salvare il film nel database o Context
-            }}
+          {/* Bottone preferiti MOBILE */}
+          <button
+            onClick={handleToggleFavorite}
             className="z-50 absolute top-3 right-3 glass px-3 py-1.5 rounded-full flex lg:hidden items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer"
           >
             <AnimateIcon
               animateOnTap
-              animate={checked}
+              animate={isFav}
               persistOnAnimateEnd={true}
               animation="fill"
             >
               <Star
                 className={
-                  checked ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
+                  isFav ? "fill-[#ffc600] text-[#ffc600]" : "text-white"
                 }
               />
             </AnimateIcon>
             <span className="text-sm font-semibold text-foreground">
-              {checked ? "Salvato" : "Aggiungi"}
+              {isFav ? "Salvato" : "Aggiungi"}
             </span>
           </button>
         </div>
