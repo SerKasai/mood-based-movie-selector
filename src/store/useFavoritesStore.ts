@@ -1,13 +1,6 @@
 import { create } from "zustand";
 import { db, auth } from "@/components/FireBase/firebaseConfig";
-import {
-  doc,
-  setDoc,
-  deleteDoc,
-  collection,
-  onSnapshot,
-  query,
-} from "firebase/firestore";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
 import { type Movie } from "@/components/MovieCard";
 
 export interface FavoritesState {

@@ -3,12 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/components/FireBase/firebaseConfig";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
-import {
-  collection,
-  query,
-  onSnapshot,
-  snapshotEqual,
-} from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "@/components/FireBase/firebaseConfig";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 
