@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/components/FireBase/firebaseConfig";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
+import {
+  collection,
+  query,
+  onSnapshot,
+  snapshotEqual,
+} from "firebase/firestore";
+import { db } from "@/components/FireBase/firebaseConfig";
+import { useFavoritesStore } from "@/store/useFavoritesStore";
 
-// 1. Definiamo i link fuori dal componente per mantenere il codice pulito (DRY)
 const NAV_LINKS = [
   { path: "/", label: "Home" },
   { path: "/discover", label: "Discover" },
@@ -13,9 +20,15 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const [isactive, setIsActive] = useState(false);
+  const [isActive, setisActive] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [userPhoto, setUserPhoto] = useState<string>("");
+  const location = useLocation();
+  const setFavorites = useFavoritesStore((state) => state.setFavorites);
+
+  useEffect(() => {
+    setisActive(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -23,6 +36,23 @@ export default function Header() {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const q = query(collection(db, "users", user.uid, "favorites"));
+
+        const unsubscribeFirestore = onSnapshot(q, (snapshot) => {
+          const movies = snapshot.docs.map((doc) => doc.data() as any);
+          setFavorites(movies);
+        });
+        return () => unsubscribeFirestore();
+      } else {
+        setFavorites([]);
+      }
+    });
+    return () => unsubscribeAuth();
+  }, [setFavorites]);
 
   const handleLogout = async () => {
     try {
@@ -39,7 +69,6 @@ export default function Header() {
         : "text-muted-foreground hover:text-foreground"
     }`;
 
-  // 2. Mini-componente per l'Avatar così non duplichiamo l'HTML
   const UserAvatar = () => (
     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-medium">
       <img
@@ -54,7 +83,6 @@ export default function Header() {
   );
 
   return (
-    // Ho aggiunto bg-black/50 all'header principale per fargli avere l'effetto vetro
     <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-md select-none border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -81,21 +109,27 @@ export default function Header() {
 
           {/* RIGHT SECTION: USER & MOBILE TOGGLE */}
           <div className="relative flex items-center">
-            <button
-              onClick={() => setIsActive(!isactive)}
-              className="cursor-pointer focus:outline-none"
-            >
-              {/* Desktop: mostra Avatar / Mobile: mostra Hamburger */}
-              <div className="hidden md:block">
+            <div className="cursor-pointer focus:outline-none">
+              {/* Desktop: mostra Avatar */}
+              <div
+                className="hidden md:block"
+                onClick={() => setisActive(!isActive)}
+              >
                 <UserAvatar />
               </div>
+              {/* Mobile: mostra Hamburger */}
               <div className="block md:hidden">
-                <Hamburger color="#3B82F6" rounded />
+                <Hamburger
+                  toggled={isActive}
+                  toggle={setisActive}
+                  color="#3B82F6"
+                  rounded
+                />
               </div>
-            </button>
+            </div>
 
             {/* DROPDOWN MENU (Sia Desktop che Mobile) */}
-            {isactive && (
+            {isActive && (
               <div className="fixed lg:absolute top-16 lg:top-12.5 right-0 w-full md:w-[200px] bg-[#0A0A0F]/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-4 flex flex-col gap-4 origin-top-right animate-in fade-in zoom-in-95">
                 {/* Dettagli utente per il mobile dentro al menu */}
                 <div className="flex flex-col items-center pb-4 border-b border-white/10 md:hidden">
@@ -109,7 +143,6 @@ export default function Header() {
                       key={link.path}
                       to={link.path}
                       className={navLinkStyles}
-                      onClick={() => setIsActive(false)} // Chiude il menu al click
                     >
                       {link.label}
                     </NavLink>
@@ -121,7 +154,7 @@ export default function Header() {
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowConfirm(true);
-                    setIsActive(false);
+                    setisActive(false);
                   }}
                   className="w-full text-center cursor-pointer rounded-xl py-2 bg-[#7c0c92]/20 hover:bg-[#7c0c92] text-white text-sm font-semibold transition-colors"
                 >
