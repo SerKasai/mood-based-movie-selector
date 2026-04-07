@@ -12,6 +12,7 @@
   "dependencies": {
     "@firebase-oss/ui-react": "^7.0.2-beta",
     "@fontsource-variable/geist": "^5.2.8",
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.2.1",
     "animate.css": "^4.1.1",
     "axios": "^1.13.6",

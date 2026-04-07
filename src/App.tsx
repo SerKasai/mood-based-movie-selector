@@ -4,6 +4,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Discover from "./pages/Discover";
 import Watchlist from "./pages/Watchlist";
+import Chatbot from "./pages/Chatbot";
 import StatsBar from "./components/StatsBar";
 import MoodSelector from "./components/MoodSelector";
 import MovieGrid from "./components/MovieGrid";
@@ -96,6 +97,7 @@ function App() {
             />
 
             <Route path="/watchlist" element={<Watchlist />} />
+            <Route path="/chatbot" element={<Chatbot />} />
           </Routes>
 
           <footer className="border-t border-border mt-16">

@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { path: "/", label: "Home" },
   { path: "/discover", label: "Discover" },
   { path: "/watchlist", label: "Watchlist" },
-  { path: "/about", label: "About" },
+  { path: "/chatbot", label: "Chatbot" },
 ];
 
 export default function Header() {
